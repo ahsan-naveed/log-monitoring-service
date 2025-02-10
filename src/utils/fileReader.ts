@@ -1,21 +1,20 @@
-const fs = require('fs').promises;
+import { promises as fs } from 'fs';
 
 /**
  * Asynchronous generator that yields lines from a file in reverse order.
  * This implementation reads the file in fixed-size chunks from the end.
  *
- * @param {string} filePath - The path to the file.
- * @param {number} [chunkSize=8192] - Number of bytes to read per chunk.
- * @returns {AsyncGenerator<string>} Yields lines from the file (newest first).
+ * @param filePath - The path to the file.
+ * @param chunkSize - Number of bytes to read per chunk (default: 8192).
+ * @returns An async generator yielding log lines (newest first).
  */
-async function* reverseFileReader(filePath, chunkSize = 8192) {
+export async function* reverseFileReader(filePath: string, chunkSize: number = 8192): AsyncGenerator<string> {
   const fileHandle = await fs.open(filePath, 'r');
   try {
     const { size: fileSize } = await fileHandle.stat();
     let position = fileSize;
     let remainder = '';
 
-    // Read until the beginning of the file is reached.
     while (position > 0) {
       const readSize = Math.min(chunkSize, position);
       position -= readSize;
@@ -29,7 +28,7 @@ async function* reverseFileReader(filePath, chunkSize = 8192) {
 
       // Split the chunk into lines. The first element may be incomplete.
       const lines = chunk.split('\n');
-      remainder = lines.shift(); // Save incomplete line for the next iteration.
+      remainder = lines.shift() || '';
 
       // Yield complete lines in reverse order.
       for (let i = lines.length - 1; i >= 0; i--) {
@@ -39,7 +38,6 @@ async function* reverseFileReader(filePath, chunkSize = 8192) {
       }
     }
 
-    // After reading all chunks, yield any remaining content.
     if (remainder) {
       yield remainder;
     }
@@ -48,5 +46,5 @@ async function* reverseFileReader(filePath, chunkSize = 8192) {
   }
 }
 
-module.exports = reverseFileReader;
+export default reverseFileReader;
 
