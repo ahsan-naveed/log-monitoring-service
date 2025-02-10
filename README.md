@@ -25,4 +25,52 @@ This service provides on-demand monitoring of Unix-based logs via a REST API. It
    ```bash
    git clone <repository-url>
    cd log-monitoring-service
+   npm install
+   
+## Running the Service
+- **Production:**
 
+```bash
+npm start
+```
+
+By default, the service listens on port 8000. You can override this by setting the PORT environment variable.
+
+## Running Tests
+To run the tests, execute:
+
+```bash
+npm test
+```
+
+## API Usage
+
+- n with 50
+```bash
+http://localhost:8000/logs?filename=syslog&n=50
+```
+
+- Retrieve lines containing "error" from /var/log/auth.log:
+
+```bash
+http://localhost:8000/logs?filename=auth.log&filter=error
+```
+
+- **Response Format**
+The API responds with JSON. Example:
+```js
+{
+  "filename": "syslog",
+  "log_lines": [
+    "Most recent log line...",
+    "Previous log line...",
+    "...",
+    "Oldest log line..."
+  ]
+}
+```
+
+## Error Handling
+- 400 Bad Request: Missing or invalid parameters.
+- 404 Not Found: The specified log file could not be found.
+- 500 Internal Server Error: An error occurred while processing the request.
