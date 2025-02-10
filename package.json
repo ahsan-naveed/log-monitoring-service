@@ -1,0 +1,29 @@
+{
+  "name": "log-monitoring-service",
+  "version": "1.0.0",
+  "description": "A Unix log monitoring service",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  }
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/ahsan-naveed/log-monitoring-service.git"
+  },
+  "author": "ahsan-naveed",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ahsan-naveed/log-monitoring-service/issues"
+  },
+  "homepage": "https://github.com/ahsan-naveed/log-monitoring-service#readme"
+}
